@@ -6,7 +6,7 @@ require 'eventmachine'
 require_relative 'ext/module'
 
 module Gopher
-  VERSION = '0.5.2'
+  VERSION = '0.6.0'
 
   class Application
     dsl_accessor :host, :port

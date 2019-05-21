@@ -1,5 +1,17 @@
 require File.join(File.dirname(__FILE__), '/spec_helper')
 
+describe Gopher::TextHandler do
+  before(:all) do
+    @handler = Gopher::TextHandler.new do
+      line "just a line of text"
+    end
+  end
+
+  it 'should print text' do
+    expect(@handler.call).to include("just a line of text")
+  end
+end
+
 describe Gopher::DirectoryHandler do
   before(:all) do
     path = File.join(File.dirname(__FILE__), 'sandbox')
