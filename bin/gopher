@@ -20,6 +20,11 @@ gopher = Gopher.application do
   mount '/', '.'
 end
 
-puts "Launching gopher server on #{gopher.host}:#{gopher.port}"
-Gopher.run
+begin
+  STDERR.puts "Launching gopher server on #{gopher.host}:#{gopher.port}"
+  Gopher.run
+rescue SystemExit, Interrupt
+  STDERR.puts "Stopping server"
+  Gopher.stop
+end
 

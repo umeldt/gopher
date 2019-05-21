@@ -299,6 +299,11 @@ module Gopher
         end        
       end
     end
+
+    def stop
+      return unless EM.reactor_running?
+      EM.stop_server
+    end
   end
 end
 
