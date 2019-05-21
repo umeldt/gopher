@@ -3,13 +3,23 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'gopher'
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "usage: gopher [options]"
+
+  opts.on("-a=ADDRESS", "bind to address") { |v| options[:address] = v }
+  opts.on("-p=PORT", "port") { |v| options[:port] = v }
+end.parse!
 
 gopher = Gopher.application do
-  host '0.0.0.0'
-  port 70
+  host options[:address] || '0.0.0.0'
+  port options[:port] || 70
 
   mount '/', '.'
 end
 
 puts "Launching gopher server on #{gopher.host}:#{gopher.port}"
 Gopher.run
+
