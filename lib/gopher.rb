@@ -1,12 +1,12 @@
 require 'yaml'
 
-require 'textwrap'
+require 'word_wrap'
 require 'eventmachine'
 
 require_relative 'ext/module'
 
 module Gopher
-  VERSION = '0.6.0'
+  VERSION = '0.7.0'
 
   class Application
     dsl_accessor :host, :port
@@ -176,7 +176,7 @@ module Gopher
 
     def paragraph(txt, width=70)
       txt.each_line do |line|
-        Textwrap.wrap(line, width).each { |chunk| text chunk }
+        WordWrap.ww(line, width).each_line { |chunk| text chunk.strip }
       end
     end
 
@@ -217,7 +217,7 @@ module Gopher
 
     def paragraph(txt, width=70)
       txt.each_line do |line|
-        Textwrap.wrap(line, width).each { |chunk| text chunk }
+        WordWrap.ww(line, width).each_line { |chunk| text chunk.strip }
       end
     end
 
@@ -238,10 +238,12 @@ module Gopher
     selector.gsub!(/\.+/, '.')
     selector
   end
+
   def self.determine_type(selector)
     case File.extname(selector).downcase
     when '.jpg', '.png' then 'I'
     when '.mp3' then 's'
+    when '.gif' then 'g'
     else '0'
     end
   end

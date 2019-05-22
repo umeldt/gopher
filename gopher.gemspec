@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib", "bin"]
   s.homepage      = 'https://svindseth.jp/gopher'
 
-  s.add_runtime_dependency "textwrap", "0.1.2"
+  s.add_runtime_dependency "word_wrap", "1.0.0"
   s.add_runtime_dependency "eventmachine", "~> 1.2", ">=1.2.0"
   s.add_development_dependency "rake", "10.4.2"
 end
