@@ -9,12 +9,14 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = "usage: gopher [options]"
 
-  opts.on("-a=ADDRESS", "bind to address") { |v| options[:address] = v }
+  opts.on("-b=BINDTO", "bind to address") { |v| options[:bindto] = v }
+  opts.on("-a=ADDRESS", "gopher hostname") { |v| options[:address] = v }
   opts.on("-p=PORT", "port") { |v| options[:port] = v }
 end.parse!
 
 gopher = Gopher.application do
-  host options[:address] || '0.0.0.0'
+  bindto options[:bindto] || '0.0.0.0'
+  host options[:address] || '127.0.0.1'
   port options[:port] || 70
 
   mount '/', '.'

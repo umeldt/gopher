@@ -6,10 +6,10 @@ require 'eventmachine'
 require_relative 'ext/module'
 
 module Gopher
-  VERSION = '0.7.0'
+  VERSION = '0.7.1'
 
   class Application
-    dsl_accessor :host, :port
+    dsl_accessor :host, :port, :bindto
     attr_accessor :selectors, :root
 
     def initialize(&block)
@@ -80,8 +80,9 @@ module Gopher
       self
     end
 
-    def host; app.respond_to?(:host) ? app.host : '0.0.0.0' end
+    def host; app.respond_to?(:host) ? app.host : 'localhost' end
     def port; app.respond_to?(:port) ? app.port : 70 end
+    def bindto; app.respond_to?(:bindto) ? app.bindto : '0.0.0.0' end
 
     def call(*args); end
   end
@@ -292,7 +293,7 @@ module Gopher
     def run
       return if EM.reactor_running?
       EM.run do
-        EM.start_server(@app.host, @app.port, Gopher::Connection) do |c|
+        EM.start_server(@app.bindto, @app.port, Gopher::Connection) do |c|
           c.app = @app
           reloadables.each do |f|
             load f if File.mtime(f) > @last_reload
